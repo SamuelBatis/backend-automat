@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Logs {
+  idLogs                    Int         @id
+  date                      String?     @db.VarChar(45)
+  Solicitacao_idSolicitacao Int
+  Solicitacao               Solicitacao @relation(fields: [Solicitacao_idSolicitacao], references: [idSolicitacao], onDelete: NoAction, onUpdate: NoAction, map: "fk_Logs_Solicitacao1")
+
+  @@index([Solicitacao_idSolicitacao], map: "fk_Logs_Solicitacao1_idx")
+}
+
+model Materiais {
+  idMateriais   Int           @id @default(autoincrement())
+  codigo_mat    String?       @db.VarChar(150)
+  descricao_mat String?       @db.VarChar(150)
+  preco_mat     String?       @db.VarChar(150)
+  area          String?       @db.VarChar(150)
+  Solicitacao   Solicitacao[]
+}
+
+model Solicitacao {
+  idSolicitacao         Int       @id
+  qtd                   Int?
+  Materiais_idMateriais Int
+  Usuarios_idUsuarios   Int
+  Logs                  Logs[]
+  Materiais             Materiais @relation(fields: [Materiais_idMateriais], references: [idMateriais], onDelete: NoAction, onUpdate: NoAction, map: "fk_Solicitacao_Materiais")
+  Usuarios              Usuarios  @relation(fields: [Usuarios_idUsuarios], references: [idUsuarios], onDelete: NoAction, onUpdate: NoAction, map: "fk_Solicitacao_Usuarios1")
+
+  @@index([Materiais_idMateriais], map: "fk_Solicitacao_Materiais_idx")
+  @@index([Usuarios_idUsuarios], map: "fk_Solicitacao_Usuarios1_idx")
+}
+
+model Usuarios {
+  idUsuarios   Int           @id @default(autoincrement())
+  nome_usuario String?       @db.VarChar(150)
+  senha        String?       @db.VarChar(150)
+  Solicitacao  Solicitacao[]
+}
