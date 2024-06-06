@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Logs {
-  idLogs                    Int         @id
+  idLogs                    Int         @id @default(autoincrement())
   date                      String?     @db.VarChar(45)
   Solicitacao_idSolicitacao Int
   Solicitacao               Solicitacao @relation(fields: [Solicitacao_idSolicitacao], references: [idSolicitacao], onDelete: NoAction, onUpdate: NoAction, map: "fk_Logs_Solicitacao1")
@@ -26,13 +26,13 @@ model Materiais {
   idMateriais   Int           @id @default(autoincrement())
   codigo_mat    String?       @db.VarChar(150)
   descricao_mat String?       @db.VarChar(150)
-  preco_mat     String?       @db.VarChar(150)
+  preco_mat     Float?
   area          String?       @db.VarChar(150)
   Solicitacao   Solicitacao[]
 }
 
 model Solicitacao {
-  idSolicitacao         Int       @id
+  idSolicitacao         Int       @id @default(autoincrement())
   qtd                   Int?
   Materiais_idMateriais Int
   Usuarios_idUsuarios   Int
