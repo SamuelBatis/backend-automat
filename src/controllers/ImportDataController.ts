@@ -3,7 +3,7 @@ import path from "path";
 import { MaterialController } from "./MaterialController";
 
 export async function getExcelData(sheetName: string) {
-  const absolutePath = path.resolve(__dirname, `Lista.xlsx`);
+  const absolutePath = path.resolve(__dirname, `../../Lista.xlsx`);
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(absolutePath);
   const worksheet = workbook.getWorksheet(sheetName);
