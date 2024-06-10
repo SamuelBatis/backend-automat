@@ -4,10 +4,17 @@ import { prismaClient } from "../database/prismaClient";
 export class SolicitacaoController {
   constructor() {}
 
-  async createSolicitacao(data: Omit<Solicitacao, "idSolicitacao">) {
+  async createSolicitacao(data: Solicitacao) {
+    console.log(data);
     const solicitacao = await prismaClient.solicitacao.create({
-      data,
+      data: {
+        qtd: data.qtd,
+        Materiais_idMateriais: data.Materiais_idMateriais,
+        Pedido_idPedido: data.Pedido_idPedido,
+        Pedido_Usuarios_idUsuarios: 1,
+      },
     });
+    console.log("solic" + solicitacao);
 
     return solicitacao;
   }
@@ -16,7 +23,7 @@ export class SolicitacaoController {
     const solicitacaos = await prismaClient.solicitacao.findMany({
       include: {
         Materiais: true,
-        Usuarios: true,
+        Pedido: true,
       },
     });
     return solicitacaos;

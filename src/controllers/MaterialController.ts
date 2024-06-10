@@ -40,6 +40,7 @@ export class MaterialController {
 
   async deleteMaterial(params: any) {
     const idM = parseInt(params.id);
+    console.log(idM);
     const deletedMaterial = await prismaClient.materiais.delete({
       where: {
         idMateriais: idM,

@@ -5,6 +5,7 @@ const solicitacaoRoutes = express.Router();
 
 solicitacaoRoutes.post("/", async (req: Request, res: Response) => {
   const solicitacaoController = new SolicitacaoController();
+  console.log(req.body);
 
   const Solicitacao = await solicitacaoController.createSolicitacao(req.body);
   res.status(201).send(Solicitacao);
