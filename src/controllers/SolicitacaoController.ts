@@ -4,14 +4,14 @@ import { prismaClient } from "../database/prismaClient";
 export class SolicitacaoController {
   constructor() {}
 
-  async createSolicitacao(data: Solicitacao) {
+  async createSolicitacao(data: any) {
     console.log(data);
     const solicitacao = await prismaClient.solicitacao.create({
       data: {
         qtd: data.qtd,
         Materiais_idMateriais: data.Materiais_idMateriais,
         Pedido_idPedido: data.Pedido_idPedido,
-        Pedido_Usuarios_idUsuarios: 1,
+        Pedido_Usuarios_idUsuarios: data.Pedido_Usuarios_idUsuarios,
       },
     });
     console.log("solic" + solicitacao);
